@@ -80,6 +80,7 @@ h2 {
 }
 
 .reco {
+
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -179,6 +180,22 @@ footer {
   opacity: 2;
   transition: 0.8s;
 
+}
+.lt{
+  opacity: 0;
+  animation: iframe forwards 3s ease;
+  
+}
+@keyframes iframe{
+  0%{
+    opacity: 0;
+    transform: translateY(50px); 
+}
+100%{
+  opacity: 1;
+  transform: translateY(0); 
+
+}
 }
 .categorias {
   margin-top: 45px;
@@ -419,4 +436,38 @@ input[type="button"]:hover { background-color: #3b5274; }
     width: 100%;
     height: 200px;
   }
+}
+
+.feito {
+  border-top: 3px solid black;
+  margin: 10px;
+}
+
+.feito p {
+  margin: 10px;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  margin: 10px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: 0.3s ease;
+  font-size: 2rem;
+  color: var(--color);
+  position: relative;
+}
+
+.icon:hover {
+  box-shadow: 0 0 15px var(--color), 0 0 30px var(--color), 0 0 60px var(--color);
 }
