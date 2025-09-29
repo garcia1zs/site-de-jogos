@@ -532,3 +532,12 @@ input[type="button"]:hover { background-color: #3b5274; }
 .icon:hover {
   box-shadow: 0 0 15px var(--color), 0 0 30px var(--color), 0 0 60px var(--color);
 }
+
+
+/*Noticias*/
+.card-not {
+  width: 580px;
+  height: 430px;
+  background-color:  black;
+}
+
