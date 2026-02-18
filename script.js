@@ -1,55 +1,75 @@
 function destacar(imgClicada) {
-      const imagens = document.querySelectorAll(".conheça img");
-      imagens.forEach(img => img.classList.remove("ativo"));
-      imgClicada.classList.add("ativo");
-    }
+  const imagens = document.querySelectorAll(".conheça img");
 
-    const botao = document.getElementById('btnCarregar');
-    const escondido = document.querySelector('.escondido');
+  // Se a imagem já estiver ativa → remove
+  if (imgClicada.classList.contains("ativo")) {
+    imgClicada.classList.remove("ativo");
+  } else {
+    // Remove de todas
+    imagens.forEach(img => img.classList.remove("ativo"));
+    
+    // Ativa a clicada
+    imgClicada.classList.add("ativo");
+  }
+}
 
-    botao.addEventListener('click', () => {
-      if (escondido.style.display === 'none' || escondido.style.display === '') {
-        escondido.style.display = 'grid';
-        botao.value = 'Mostrar menos';
-      } else {
-        escondido.style.display = 'none';
-        botao.value = 'Carregar mais';
-      }
-    });
    
+const apiKey = "S8dcfa32ed65c443cbeac5c235b19372d";
+let atual = 0;
+let jogos = [];
 
-  function trocaimg(){
-    let img = window.document.getElementById('ima')
-    let ifr = window.document.getElementById('ifr')
-    if(img.src.includes('img/silk.webp') && (ifr.src.includes('https://www.youtube.com/embed/6XGeJwsUP9c?si=0zAP7W6PWJKY9X7S'))){
-      img.src = 'img/mafia.jpeg'
-      ifr.src = 'https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'
+// Função para carregar lançamentos da API
+async function carregarLancamentos() {
+  try {
+    const resposta = await fetch(
+      `https://api.rawg.io/api/games?key=${apiKey}&dates=2025-01-01,2026-12-31&ordering=-released`
+    );
 
-    } else if(img.src.includes('img/mafia.jpeg') && (ifr.src.includes('https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'))){
-      img.src = 'img/metal.webp'
-      ifr.src = 'https://www.youtube.com/embed/sKMayCD1u3w?si=r0mtJvD-uoLsfc36'
-    }else{
-      img.src = 'img/silk.webp'
-      ifr.src = 'https://www.youtube.com/embed/6XGeJwsUP9c?si=0zAP7W6PWJKY9X7S'
+    const dados = await resposta.json();
 
-    }
+    // Pega os 5 primeiros lançamentos
+    jogos = dados.results.slice(0, 5);
+    atualizar();
+
+  } catch (erro) {
+    console.error("Erro ao carregar jogos:", erro);
   }
-  function voltaimg(){
-    let img = window.document.getElementById('ima')
-    let ifr = window.document.getElementById('ifr')
-    if(img.src.includes('img/silk.webp') && (ifr.src.includes('https://www.youtube.com/embed/6XGeJwsUP9c?si=0zAP7W6PWJKY9X7S'))){
-      img.src = 'img/metal.webp'
-      ifr.src = 'https://www.youtube.com/embed/sKMayCD1u3w?si=r0mtJvD-uoLsfc36'
+}
 
-    } else if(img.src.includes('img/mafia.jpeg') && (ifr.src.includes('https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'))){
-      img.src = 'img/silk.webp'
-      ifr.src = 'https://www.youtube.com/embed/6XGeJwsUP9c?si=0zAP7W6PWJKY9X7S'
-    }else{
-      img.src = 'img/mafia.jpeg'
-      ifr.src = 'https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'
+// Função para atualizar imagem e info
+function atualizar() {
+  if(jogos.length === 0) return;
 
-    }
-  }
+  const img = document.getElementById('ima');
+  const nome = document.getElementById('nomeJogo');
+  const data = document.getElementById('dataJogo');
+
+img.src = jogos[atual].background_image
+  ? jogos[atual].background_image.replace("http://", "https://")
+  : "img/placeholder.png";  nome.textContent = jogos[atual].name || "Sem nome";
+  data.textContent = `Lançamento: ${jogos[atual].released || "Indefinida"}`;
+}
+
+// Próximo jogo
+function trocaimg() {
+  if(jogos.length === 0) return;
+  atual++;
+  if(atual >= jogos.length) atual = 0;
+  atualizar();
+}
+
+// Jogo anterior
+function voltaimg() {
+  if(jogos.length === 0) return;
+  atual--;
+  if(atual < 0) atual = jogos.length - 1;
+  atualizar();
+}
+
+// Chama a API quando a página carrega
+document.addEventListener("DOMContentLoaded", carregarLancamentos);
+
+
   function scrollFranquias(direction) {
     const carousel = document.getElementById('fran-carousel');
     const scrollAmount = 350; // Ajuste para o tamanho do seu card + gap
@@ -92,3 +112,4 @@ document.querySelectorAll('.video-thumb').forEach(thumb => {
     thumb.appendChild(iframe);
   });
 });
+console.log(jogos)

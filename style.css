@@ -442,52 +442,49 @@ input[type="button"]:hover { background-color: #3b5274; }
 
 /* Responsividade */
 @media (max-width: 768px) {
+
   header{
-    flex-flow: row wrap;
-    width: 400px;
+    flex-direction: column;
+    width: 100%;
   }
+
   .video video{
-    height: 300px;
-    width: 400px;
+    width: 100%;
+    height: auto;
   }
+
   .item iframe {
-    width: 95%;
+    width: 100%;
     height: 250px;
   }
+
   .logos{
-    flex-flow: row wrap;
+    flex-direction: column;
   }
+
   .noticias{
-    flex-flow: column wrap;
+    flex-direction: column;
   }
+
   .conheça{
-        flex-flow: column wrap;
-
+    flex-direction: column;
   }
+
   .conheça img.ativo {
-  width: 370px;
-  opacity: 1;
-}
-.trailer{
-  flex-flow: column wrap;
-  display: none;
-}
-.desa{
-  display: none;
-}
+    width: 100%;
+  }
 
-.fran{
-  margin-top: 20px;
-}
-.categorias{
-  display: flex;
-  flex-flow: row wrap;
-}
-.escondido{
-  display: none;
-}
+  .trailer{
+    display: none;
+  }
 
+  .desa{
+    display: none;
+  }
 
+  .categorias{
+    flex-wrap: wrap;
+  }
 
 }
 
