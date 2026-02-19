@@ -14,62 +14,40 @@ function destacar(imgClicada) {
 }
 
    
-const apiKey = "S8dcfa32ed65c443cbeac5c235b19372d";
-let atual = 0;
-let jogos = [];
+  function trocaimg(){
+    let img = window.document.getElementById('ima')
+    let ifr = window.document.getElementById('ifr')
+    if(img.src.includes('img/re9.jpg') && (ifr.src.includes('https://www.youtube.com/embed/RJ7eRQgJBbo?si=6qqNdSGxHeVRWixN'))){
+      img.src = 'img/mafia.jpeg'
+      ifr.src = 'https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'
 
-// Função para carregar lançamentos da API
-async function carregarLancamentos() {
-  try {
-    const resposta = await fetch(
-      `https://api.rawg.io/api/games?key=${apiKey}&dates=2025-01-01,2026-12-31&ordering=-released`
-    );
+    } else if(img.src.includes('img/mafia.jpeg') && (ifr.src.includes('https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'))){
+      img.src = 'img/metal.webp'
+      ifr.src = 'https://www.youtube.com/embed/sKMayCD1u3w?si=r0mtJvD-uoLsfc36'
+    }else{
+      img.src = 'img/re9.jpg'
+      ifr.src = 'https://www.youtube.com/embed/RJ7eRQgJBbo?si=6qqNdSGxHeVRWixN'
 
-    const dados = await resposta.json();
+    }
+    }
+ function voltaimg(){
+    let img = window.document.getElementById('ima')
+    let ifr = window.document.getElementById('ifr')
+    if(img.src.includes('img/re9.jpg') && (ifr.src.includes('https://www.youtube.com/embed/RJ7eRQgJBbo?si=6qqNdSGxHeVRWixN'))){
+      img.src = 'img/metal.webp'
+      ifr.src = 'https://www.youtube.com/embed/sKMayCD1u3w?si=r0mtJvD-uoLsfc36'
 
-    // Pega os 5 primeiros lançamentos
-    jogos = dados.results.slice(0, 5);
-    atualizar();
+    } else if(img.src.includes('img/mafia.jpeg') && (ifr.src.includes('https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'))){
+      img.src = 'img/re9.jpg'
+      ifr.src = 'https://www.youtube.com/embed/RJ7eRQgJBbo?si=6qqNdSGxHeVRWixN'
+    }else{
+      img.src = 'img/mafia.jpeg'
+      ifr.src = 'https://www.youtube.com/embed/AMtLTi0koGE?si=KbYSsRyOqutWufvp'
 
-  } catch (erro) {
-    console.error("Erro ao carregar jogos:", erro);
-  }
+    }
 }
 
-// Função para atualizar imagem e info
-function atualizar() {
-  if(jogos.length === 0) return;
-
-  const img = document.getElementById('ima');
-  const nome = document.getElementById('nomeJogo');
-  const data = document.getElementById('dataJogo');
-
-img.src = jogos[atual].background_image
-  ? jogos[atual].background_image.replace("http://", "https://")
-  : "img/placeholder.png";  nome.textContent = jogos[atual].name || "Sem nome";
-  data.textContent = `Lançamento: ${jogos[atual].released || "Indefinida"}`;
-}
-
-// Próximo jogo
-function trocaimg() {
-  if(jogos.length === 0) return;
-  atual++;
-  if(atual >= jogos.length) atual = 0;
-  atualizar();
-}
-
-// Jogo anterior
-function voltaimg() {
-  if(jogos.length === 0) return;
-  atual--;
-  if(atual < 0) atual = jogos.length - 1;
-  atualizar();
-}
-
-// Chama a API quando a página carrega
-document.addEventListener("DOMContentLoaded", carregarLancamentos);
-
-
+ 
   function scrollFranquias(direction) {
     const carousel = document.getElementById('fran-carousel');
     const scrollAmount = 350; // Ajuste para o tamanho do seu card + gap
@@ -112,4 +90,17 @@ document.querySelectorAll('.video-thumb').forEach(thumb => {
     thumb.appendChild(iframe);
   });
 });
-console.log(jogos)
+
+ const btn = document.getElementById('btnCarregar');
+  const escondido = document.querySelector('.escondido');
+
+  btn.addEventListener('click', () => {
+    // Alterna entre mostrar/esconder
+    if (escondido.style.display === 'none' || escondido.style.display === '') {
+      escondido.style.display = 'grid'; // ou 'block', se preferir
+      btn.value = "Mostrar menos";       // muda o texto do botão
+    } else {
+      escondido.style.display = 'none';
+      btn.value = "Carregar mais";
+    }
+  });
